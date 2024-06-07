@@ -1,0 +1,20 @@
+Termin: 18.06.2024 
+
+Wysłać przez: Ilias
+
+Załączyć: 
+	formularz opsisowy (z ilias),
+	
+
+Odsobik dopuszczalny : powtórzone miasto -> tylko pierwsze,
+	
+
+!!! osobnki mają być krzyżowane:
+	https://www.kompikownia.pl/index.php/2020/07/29/problem-komiwojazera-rozwiazywany-algorytmem-genetycznym/
+
+Jak krzyżować: 
+	1. Podstaw część z jednego, a część z drugiego rodzica
+	2. Sprawdź które miasta zostały powtózone, a których nie ma
+	3. Część która pochodzi od pierwszego rodzica (w pierwszym potomku) 
+		naprawić (powtórzone punkty zamienić na te których nie ma)
+		(dla drugiego potomka naprawia się część od drugiego rodzica)
