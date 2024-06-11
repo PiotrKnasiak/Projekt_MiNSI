@@ -3,14 +3,29 @@ import java.util.*;
 /**
  * @deprecated
  */
-public class Individual {
+public class Individual implements Comparable<Individual> {
     // lp nic tu nie znaczy
     public List<Integer> listOfCities;
     public List<Integer> listOfDistances;// doesnt work till i dont get data from file
     private Random rand = new Random();
 
     /**
-     * Konstruktor generujący nowego osobnika
+     * Konstruktor generujący nowego osobnika z krzyżowania
+     * 
+     * @param parent1     {@code Individual} Pierwszy rodzic
+     * @param parent2     {@code Individual} Drugi rodzic
+     * @param crossPoint1 {@code int} Pierwszy punk krzyżowania
+     * @param crossPoint2 {@code int} Drugi punk krzyżowania
+     */
+    public Individual(Individual parent1, Individual parent2, int crossPoint1, int crossPoint2) {
+
+        // nigdzie indziej nie użyje się crossover, niż przy towrzeniu nowego osobnika
+        // więc najlepiej przenieść kod funckji tutaj
+        crossover(parent1, parent2, crossPoint1, crossPoint2);
+    }
+
+    /**
+     * Konstruktor generujący nowego osobnika, pierwsza populacja
      * 
      * @param listOfCities Lista {@code City} z których wybiera miasta
      */
@@ -39,19 +54,19 @@ public class Individual {
 
     /**
      * @deprecated Do kompletnej przeróbki
-     * @param parent1         {@code Individual} Pierwszy rodzic
-     * @param parent2         {@code Individual} Drugi rodzic
-     * @param crossOverPoint1 {@code int} Pierwszy punk krzyżowania
-     * @param crossOverPoint2 {@code int} Drugi punk krzyżowania
+     * @param parent1     {@code Individual} Pierwszy rodzic
+     * @param parent2     {@code Individual} Drugi rodzic
+     * @param crossPoint1 {@code int} Pierwszy punk krzyżowania
+     * @param crossPoint2 {@code int} Drugi punk krzyżowania
      */
-    public void crossover(Individual parent1, Individual parent2, int crossOverPoint1, int crossOverPoint2) {
+    public void crossover(Individual parent1, Individual parent2, int crossPoint1, int crossPoint2) {
         int size = parent1.listOfCities.size();
         List<Integer> offspring = new ArrayList<>(Arrays.asList(new Integer[size]));
         Map<Integer, Integer> mapping1 = new HashMap<>();
         Map<Integer, Integer> mapping2 = new HashMap<>();
 
         // Step 1: Copy the segment from parent1 to the offspring
-        for (int i = crossOverPoint1; i <= crossOverPoint2; i++) {
+        for (int i = crossPoint1; i <= crossPoint2; i++) {
             offspring.set(i, parent1.listOfCities.get(i));
             mapping1.put(parent1.listOfCities.get(i), parent2.listOfCities.get(i)); // komicznie źle; używa numeru
                                                                                     // miasta jako klucza;
@@ -62,7 +77,7 @@ public class Individual {
 
         // Step 2: Resolve conflicts and fill the rest from parent2
         for (int i = 0; i < size; i++) {
-            if (i >= crossOverPoint1 && i <= crossOverPoint2) {
+            if (i >= crossPoint1 && i <= crossPoint2) {
                 continue;
             }
 
@@ -82,5 +97,30 @@ public class Individual {
 
         listOfCities = offspring;
 
+    }
+
+    /**
+     * Mutuje osobnika zamieniając miejscami 2 miasta
+     */
+    public void mutate() {
+        // miasta do zmiany
+        int[] swap = rand.ints(0, listOfCities.size()).distinct().limit(2).toArray();
+
+        // ...
+    }
+
+    /**
+     * Zwraca sumę przebytego dystansu
+     * 
+     * @return {@code int}
+     */
+    public int sumDistance() {
+        return listOfCities.stream().mapToInt(d -> d).sum();
+    }
+
+    @Override
+    public int compareTo(Individual other) {
+        // Compare books based on their publication year
+        return Integer.compare(this.sumOfDistances(), other.sumOfDistances());
     }
 }
