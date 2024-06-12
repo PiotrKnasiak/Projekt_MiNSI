@@ -6,8 +6,8 @@ import java.util.function.DoubleToIntFunction;
  */
 public class Population {
     List<City> ListOfCities;
-    List<Individual> individuals= new ArrayList<>();
-    double pc = 0.2, pm = 0.01;//prawdopodobieństwo krzyżowania i mutacji
+    List<Individual> individuals = new ArrayList<>(Main.POP_SIZE);
+    double pc = 0.2, pm = 0.01;// prawdopodobieństwo krzyżowania i mutacji
     Random rand = new Random();
 
     /**
@@ -26,7 +26,7 @@ public class Population {
         this.pm = pm;
 
         for (int i = 0; i < numberOfInd; i++) {
-            individuals.add( new Individual(ListOfCities));
+            individuals.add(new Individual(ListOfCities));
         }
     }
 
@@ -62,26 +62,26 @@ public class Population {
 
             int j = 0;
 
-            while (j < numberOfCh && i + 2 < numberOfInd) {
+            while (j < numberOfCh && i < numberOfInd) {
+
                 if (i % 2 == 0) {
-                    individuals.add( new Individual(parent1, parent2, crossPoint1, crossPoint2));
+                    individuals.add(new Individual(parent1, parent2, crossPoint1, crossPoint2));
                     i++;
                 } else {
-                    individuals.add( new Individual(parent2, parent1, crossPoint1, crossPoint2));
+                    individuals.add(new Individual(parent2, parent1, crossPoint1, crossPoint2));
                     i++;
                 }
 
                 j++;
             }
 
-            System.out.println(numberOfCh);
-
             pInd += 2;
+
         }
 
         for (int i = 0; i < numberOfInd; i++) {
             if (rand.nextDouble() < pm)
-                individuals.get(i).mutate((int)pm*100);
+                individuals.get(i).mutate((int) pm * 100);
         }
     }
 
@@ -115,7 +115,7 @@ public class Population {
         sort();
 
         for (int i = 0; i < howMany; i++) {
-            selectedInds.add( individuals.get(i));
+            selectedInds.add(individuals.get(i));
         }
 
         return selectedInds;

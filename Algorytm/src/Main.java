@@ -37,6 +37,8 @@ public class Main {
             Population childPop = new Population(currPop.select(), POP_SIZE, ListOfCities, PC, PM, crossPoint1,
                     crossPoint2);
 
+            currPop = childPop;
+
         }
 
         return currPop;
@@ -47,8 +49,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        List<City> miasta = Repository.loadTSPFile();
-        Cities = Repository.loadTSPFile();
+        String fileName = "a280.tsp";
+        List<City> miasta = Repository.loadTSPFile(fileName);
+        Cities = Repository.loadTSPFile(fileName);
 
         Population pop = algorytm(miasta);
 
@@ -57,9 +60,8 @@ public class Main {
         Individual New = new Individual(miasta);
         Individual Parent1 = new Individual(miasta);
         Individual Parent2 = new Individual(miasta);
-        Parent1.listOfCities = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,1);
-        Parent2.listOfCities = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1,10);
-        New.crossover(Parent1,Parent2 , 1, 5);
+        New.crossover(Parent1, Parent2, 1, 5);
+
         System.out.println("Parents:");
         System.out.println(Parent1.listOfCities);
         System.out.println(Parent2.listOfCities);
@@ -68,23 +70,23 @@ public class Main {
 
         // Testowanie wczytywania pliku
 
-        Cities = Repository.loadTSPFile();
+        Cities = Repository.loadTSPFile(fileName);
 
-//        for (City city : Cities) {
-//            System.out.println(city);
-//        }
+        // for (City city : Cities) {
+        // System.out.println(city);
+        // }
 
-        //Testowanie obliczania dystansu
+        // Testowanie obliczania dystansu
         New.calculateDistances();
         System.out.println("");
-        System.out.println("ListOfDistances: "+New.listOfDistances);
+        System.out.println("ListOfDistances: " + New.listOfDistances);
         New.calculateDistances();
 
-        //Testowanie sumy dystansów
-        System.out.println("SumOfDistances: "+New.sumOfDistances(New.listOfDistances));
+        // Testowanie sumy dystansów
+        System.out.println("SumOfDistances: " + New.sumOfDistances(New.listOfDistances));
 
-        //Testowanie ListySumyDystansów
-        System.out.println("Increasing Distance: "+New.GetListOfSumDistances());
+        // Testowanie ListySumyDystansów
+        System.out.println("Increasing Distance: " + New.GetListOfSumDistances());
 
     }
 

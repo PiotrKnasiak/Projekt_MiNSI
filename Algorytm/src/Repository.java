@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 public class Repository {
-    private static final String projectPath = Paths.get("").toAbsolutePath().toString();
+    private static String projectPath = Paths.get("").toAbsolutePath().toString();
     private static final String folderPath = "data"; // Wybrany folder w projekcie
     private static final String fileName = "a280.tsp"; // Nazwa pliku
 
-    public static List<City> loadTSPFile() {
+    public static List<City> loadTSPFile(String fileName) {
+        if (projectPath.endsWith("\\src"))
+            projectPath = Paths.get("").toAbsolutePath().getParent().toString();
+
         String filename = Paths.get(projectPath, folderPath, fileName).toString();
         List<City> cities = new ArrayList<>();
         boolean readingNodes = false;
@@ -41,8 +45,8 @@ public class Repository {
 
         return cities;
     }
-    public static void SavePopulation (Population pop)
-    {
-        //TODO: Implement
+
+    public static void SavePopulation(Population pop) {
+        // TODO: Implement
     }
 }

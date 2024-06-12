@@ -1,8 +1,5 @@
 import java.util.*;
 
-/**
- * @deprecated
- */
 public class Individual implements Comparable<Individual> {
     // lp nic tu nie znaczy
     public List<Integer> listOfCities = new ArrayList<>();
@@ -34,14 +31,10 @@ public class Individual implements Comparable<Individual> {
         // tl;dr -> losuje indexy miast jakie przypisać
         int[] cities = rand.ints(0, listOfCities.size()).distinct().limit(listOfCities.size()).toArray();
 
-
-
-        for (int i = 0; i < cities.length; i++)
-        {
-            System.out.println(cities[i]);
+        for (int i = 0; i < cities.length; i++) {
             this.listOfCities.add(cities[i]);
         }
-        this.listOfCities.add( cities[0]);
+        this.listOfCities.add(cities[0]);
 
         calculateDistances();
         // odległość pierwszego od ostatniego
@@ -61,7 +54,7 @@ public class Individual implements Comparable<Individual> {
      * @param crossPoint2 {@code int} Drugi punk krzyżowania
      */
     public void crossover(Individual parent1, Individual parent2, int crossPoint1, int crossPoint2) {
-        int size = parent1.listOfCities.subList(0,parent1.listOfCities.size()-1).size();
+        int size = parent1.listOfCities.subList(0, parent1.listOfCities.size() - 1).size();
         List<Integer> offspring = new ArrayList<>(Arrays.asList(new Integer[size]));
         Map<Integer, Integer> mapping1 = new HashMap<>();
         Map<Integer, Integer> mapping2 = new HashMap<>();
@@ -101,27 +94,25 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Mutuje osobnika zamieniając miejscami 2 miasta
+     * 
      * @param chanceToMutate szansa na mutację
      */
     public void mutate(int chanceToMutate)
 
     {
-        if (rand.nextInt(100) > chanceToMutate)
-        {
+        if (rand.nextInt(100) > chanceToMutate) {
             return;
         }
 
         // miasta do zmiany
 
-            int index1 = rand.nextInt(listOfCities.size());
-            int index2 = rand.nextInt(listOfCities.size());
+        int index1 = rand.nextInt(listOfCities.size());
+        int index2 = rand.nextInt(listOfCities.size());
 
-            // zamiana miejscami
-            int temp = listOfCities.get(index1);
-            listOfCities.set(index1, listOfCities.get(index2));
-            listOfCities.set(index2, temp);
-
-
+        // zamiana miejscami
+        int temp = listOfCities.get(index1);
+        listOfCities.set(index1, listOfCities.get(index2));
+        listOfCities.set(index2, temp);
 
     }
 
@@ -152,28 +143,24 @@ public class Individual implements Comparable<Individual> {
             }
         }
     }
+
     /**
      * zwraca listę odległości pokonywana przez komwojazera
      *
-     * @return Lista odległości pokonywana przez komwojazera jako {@code List<Integer>}
+     * @return Lista odległości pokonywana przez komwojazera jako
+     *         {@code List<Integer>}
      */
-    public List<Integer> GetListOfSumDistances()
-    {
+    public List<Integer> GetListOfSumDistances() {
         List<Integer> Temp = new ArrayList<>();
-        for (int i = 0; i <= listOfCities.size(); i++)
-        {
-            if (i != 0)
-            {
+        for (int i = 0; i <= listOfCities.size(); i++) {
+            if (i != 0) {
                 Temp.add(sumOfDistances(listOfDistances.subList(0, i)));
-            }
-            else
-            {
+            } else {
                 Temp.add(0);
             }
         }
         return Temp.subList(1, Temp.size());
     }
-
 
     /**
      * Oblicza dystans między dwoma punktami
@@ -188,10 +175,9 @@ public class Individual implements Comparable<Individual> {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
-
     @Override
     public int compareTo(Individual other) {
         // Compare books based on their publication year
-        return Integer.compare(this.sumOfDistances(this.listOfDistances), other.sumOfDistances(other.listOfDistances));
+        return Integer.compare(this.sumDistance(), other.sumDistance());
     }
 }
