@@ -1,5 +1,5 @@
 public class City {
-  public int x = 0, y = 0;
+  public double x = 0, y = 0;
   public String name = "nie nazwano";
 
   /**
@@ -9,7 +9,7 @@ public class City {
    * @param y    Pozycja y
    * @param name Nazwa miasta
    */
-  public City(int x, int y, String name) {
+  public City(double x, double y, String name) {
     this.x = x;
     this.y = y;
     this.name = name;
@@ -26,4 +26,10 @@ public class City {
 
     return (int) Math.round(result);
   }
+
+
+  @Override
+    public String toString() {
+        return name+"("+x+","+y+")";
+    }
 }

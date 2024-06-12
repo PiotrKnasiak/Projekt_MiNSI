@@ -32,20 +32,21 @@ public class Individual implements Comparable<Individual> {
     public Individual(List<City> listOfCities) {
         // losuje tyle losowych liczb, ile jest miast of (od 0 do ilczby miast-1)
         // tl;dr -> losuje indexy miast jakie przypisać
-        int[] cities = rand.ints(0, listOfCities.size()).distinct().limit(listOfCities.size()).toArray();
-
-        for (int i = 0; i < cities.length; i++) {
-            this.listOfCities.set(i, cities[i]);
-        }
-        this.listOfCities.set(cities.length, cities[0]);
-
-        for (int i = 0; i < cities.length - 1; i++) {
-            City c1 = listOfCities.get(cities[i]), c2 = listOfCities.get(cities[i + 1]);
-            this.listOfDistances.set(i, c1.distance(c2));
-        }
-        // odległość pierwszego od ostatniego
-        this.listOfDistances.set(cities.length - 1,
-                listOfCities.get(cities[0]).distance(listOfCities.get(cities[cities.length - 1])));
+//        int[] cities = rand.ints(0, listOfCities.size()).distinct().limit(listOfCities.size()).toArray();
+//
+//        for (int i = 0; i < cities.length; i++)
+//        {
+//            this.listOfCities.set(i, cities[i]);
+//        }
+//        this.listOfCities.set(cities.length, cities[0]);
+//
+//        for (int i = 0; i < cities.length - 1; i++) {
+//            City c1 = listOfCities.get(cities[i]), c2 = listOfCities.get(cities[i + 1]);
+//            this.listOfDistances.set(i, c1.distance(c2));
+//        }
+//        // odległość pierwszego od ostatniego
+//        this.listOfDistances.set(cities.length - 1,
+//                listOfCities.get(cities[0]).distance(listOfCities.get(cities[cities.length - 1])));
     }
 
     public int sumOfDistances() {
@@ -53,7 +54,8 @@ public class Individual implements Comparable<Individual> {
     }
 
     /**
-     * @deprecated Do kompletnej przeróbki
+     * Krzyżuje dwa osobniki
+     *
      * @param parent1     {@code Individual} Pierwszy rodzic
      * @param parent2     {@code Individual} Drugi rodzic
      * @param crossPoint1 {@code int} Pierwszy punk krzyżowania
@@ -68,11 +70,9 @@ public class Individual implements Comparable<Individual> {
         // Step 1: Copy the segment from parent1 to the offspring
         for (int i = crossPoint1; i <= crossPoint2; i++) {
             offspring.set(i, parent1.listOfCities.get(i));
-            mapping1.put(parent1.listOfCities.get(i), parent2.listOfCities.get(i)); // komicznie źle; używa numeru
-                                                                                    // miasta jako klucza;
-                                                                                    // zwróci "dobrego" odobnika, ale to
-                                                                                    // nie jest krzyżowanie
-            mapping2.put(parent2.listOfCities.get(i), parent1.listOfCities.get(i)); // też komicznie źle;
+            mapping1.put(parent1.listOfCities.get(i), parent2.listOfCities.get(i));
+            mapping2.put(parent2.listOfCities.get(i), parent1.listOfCities.get(i));
+
         }
 
         // Step 2: Resolve conflicts and fill the rest from parent2
@@ -101,12 +101,28 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Mutuje osobnika zamieniając miejscami 2 miasta
+     * @param chanceToMutate szansa na mutację
      */
-    public void mutate() {
-        // miasta do zmiany
-        int[] swap = rand.ints(0, listOfCities.size()).distinct().limit(2).toArray();
+    public void mutate(int chanceToMutate)
 
-        // ...
+    {
+        if (rand.nextInt(100) > chanceToMutate)
+        {
+            return;
+        }
+
+        // miasta do zmiany
+
+            int index1 = rand.nextInt(listOfCities.size());
+            int index2 = rand.nextInt(listOfCities.size());
+
+            // zamiana miejscami
+            int temp = listOfCities.get(index1);
+            listOfCities.set(index1, listOfCities.get(index2));
+            listOfCities.set(index2, temp);
+
+
+
     }
 
     /**
@@ -117,6 +133,42 @@ public class Individual implements Comparable<Individual> {
     public int sumDistance() {
         return listOfCities.stream().mapToInt(d -> d).sum();
     }
+    /**
+     * Oblicza Dystanse między miastami
+     *
+     */
+
+    /**
+     * Oblicza dystanse między miastami
+     */
+    public void distances() {
+        listOfDistances = new ArrayList<>(Collections.nCopies(listOfCities.size(), 0));
+        for (int i = 0; i < listOfCities.size(); i++) {
+            if (i != 0) {
+                listOfDistances.set(i, (int) calculateDistance(
+                        Main.Cities.get(listOfCities.get(i)).x,
+                        Main.Cities.get(listOfCities.get(i)).y,
+                        Main.Cities.get(listOfCities.get(i - 1)).x,
+                        Main.Cities.get(listOfCities.get(i - 1)).y));
+            } else {
+                listOfDistances.set(i, 0);
+            }
+        }
+    }
+
+    /**
+     * Oblicza dystans między dwoma punktami
+     *
+     * @param x1 Pozycja x pierwszego punktu
+     * @param y1 Pozycja y pierwszego punktu
+     * @param x2 Pozycja x drugiego punktu
+     * @param y2 Pozycja y drugiego punktu
+     * @return Dystans jako {@code double}
+     */
+    public static double calculateDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
 
     @Override
     public int compareTo(Individual other) {

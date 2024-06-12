@@ -11,11 +11,17 @@ public class Main {
     public static final int MAX_EVALS = 500;
     public static final double CROSS_MULT_1 = 0.3, CROSS_MULT_2 = 0.6;
     public static final int POP_SIZE = 100;
+    public static List<City> Cities = new ArrayList<City>();
 
     public static Random rand = new Random();
 
     public static List<City> loadCities() {
         List<City> ListOfCities = new ArrayList<City>();
+        ListOfCities.add(new City(0, 0, "Warszawa"));
+        ListOfCities.add(new City(1, 1, "Kraków"));
+        ListOfCities.add(new City(2, 2, "Gdańsk"));
+        ListOfCities.add(new City(3, 3, "Wrocław"));
+        ListOfCities.add(new City(4, 4, "Poznań"));
 
         return ListOfCities;
     }
@@ -45,9 +51,36 @@ public class Main {
     public static void main(String[] args) {
         List<City> miasta = loadCities();
 
-        Population pop = algorytm(miasta);
+        //Population pop = algorytm(miasta);
 
-        savePop(pop);
+        //savePop(pop);
+
+        Individual New = new Individual(miasta);
+        Individual Parent1 = new Individual(miasta);
+        Individual Parent2 = new Individual(miasta);
+        Parent1.listOfCities = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Parent2.listOfCities = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        New.crossover(Parent1,Parent2 , 1, 5);
+        System.out.println("Parents:");
+        System.out.println(Parent1.listOfCities);
+        System.out.println(Parent2.listOfCities);
+        System.out.println("Child:");
+        System.out.println(New.listOfCities);
+
+        // Testowanie wczytywania pliku
+
+        Cities = Repository.loadTSPFile();
+
+//        for (City city : Cities) {
+//            System.out.println(city);
+//        }
+
+        //Testowanie obliczania dystansu
+        New.distances();
+        System.out.println("1");
+        System.out.println(New.listOfDistances);
+        New.distances();
+
     }
 
 }

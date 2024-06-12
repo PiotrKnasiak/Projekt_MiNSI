@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.DoubleToIntFunction;
 
 /**
  * Cała populacja składająca się z osobników typu {@code Individual}
@@ -6,7 +7,7 @@ import java.util.*;
 public class Population {
     List<City> ListOfCities;
     List<Individual> individuals;
-    double pc = 0.2, pm = 0.01;
+    double pc = 0.2, pm = 0.01;//prawdopodobieństwo krzyżowania i mutacji
     Random rand = new Random();
 
     /**
@@ -78,7 +79,7 @@ public class Population {
 
         for (int i = 0; i < numberOfInd; i++) {
             if (rand.nextDouble() < pm)
-                individuals.get(i).mutate();
+                individuals.get(i).mutate((int)pm*100);
         }
     }
 
