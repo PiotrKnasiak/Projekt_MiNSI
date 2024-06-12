@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class Main {
@@ -58,8 +56,8 @@ public class Main {
         Individual New = new Individual(miasta);
         Individual Parent1 = new Individual(miasta);
         Individual Parent2 = new Individual(miasta);
-        Parent1.listOfCities = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        Parent2.listOfCities = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        Parent1.listOfCities = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,1);
+        Parent2.listOfCities = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1,10);
         New.crossover(Parent1,Parent2 , 1, 5);
         System.out.println("Parents:");
         System.out.println(Parent1.listOfCities);
@@ -76,10 +74,16 @@ public class Main {
 //        }
 
         //Testowanie obliczania dystansu
-        New.distances();
-        System.out.println("1");
-        System.out.println(New.listOfDistances);
-        New.distances();
+        New.calculateDistances();
+        System.out.println("");
+        System.out.println("ListOfDistances: "+New.listOfDistances);
+        New.calculateDistances();
+
+        //Testowanie sumy dystansów
+        System.out.println("SumOfDistances: "+New.sumOfDistances(New.listOfDistances));
+
+        //Testowanie ListySumyDystansów
+        System.out.println("Increasing Distance: "+New.GetListOfSumDistances());
 
     }
 

@@ -49,8 +49,8 @@ public class Individual implements Comparable<Individual> {
 //                listOfCities.get(cities[0]).distance(listOfCities.get(cities[cities.length - 1])));
     }
 
-    public int sumOfDistances() {
-        return listOfDistances.stream().mapToInt(Integer::intValue).sum();
+    public int sumOfDistances(List<Integer> TemplistOfDistances) {
+        return TemplistOfDistances.stream().mapToInt(Integer::intValue).sum();
     }
 
     /**
@@ -62,7 +62,7 @@ public class Individual implements Comparable<Individual> {
      * @param crossPoint2 {@code int} Drugi punk krzyżowania
      */
     public void crossover(Individual parent1, Individual parent2, int crossPoint1, int crossPoint2) {
-        int size = parent1.listOfCities.size();
+        int size = parent1.listOfCities.subList(0,parent1.listOfCities.size()-1).size();
         List<Integer> offspring = new ArrayList<>(Arrays.asList(new Integer[size]));
         Map<Integer, Integer> mapping1 = new HashMap<>();
         Map<Integer, Integer> mapping2 = new HashMap<>();
@@ -94,6 +94,7 @@ public class Individual implements Comparable<Individual> {
                 offspring.set(i, parent1.listOfCities.get(i));
             }
         }
+        offspring.add(offspring.get(0));
 
         listOfCities = offspring;
 
@@ -133,15 +134,11 @@ public class Individual implements Comparable<Individual> {
     public int sumDistance() {
         return listOfCities.stream().mapToInt(d -> d).sum();
     }
-    /**
-     * Oblicza Dystanse między miastami
-     *
-     */
 
     /**
      * Oblicza dystanse między miastami
      */
-    public void distances() {
+    public void calculateDistances() {
         listOfDistances = new ArrayList<>(Collections.nCopies(listOfCities.size(), 0));
         for (int i = 0; i < listOfCities.size(); i++) {
             if (i != 0) {
@@ -155,6 +152,28 @@ public class Individual implements Comparable<Individual> {
             }
         }
     }
+    /**
+     * zwraca listę odległości pokonywana przez komwojazera
+     *
+     * @return Lista odległości pokonywana przez komwojazera jako {@code List<Integer>}
+     */
+    public List<Integer> GetListOfSumDistances()
+    {
+        List<Integer> Temp = new ArrayList<>();
+        for (int i = 0; i <= listOfCities.size(); i++)
+        {
+            if (i != 0)
+            {
+                Temp.add(sumOfDistances(listOfDistances.subList(0, i)));
+            }
+            else
+            {
+                Temp.add(0);
+            }
+        }
+        return Temp.subList(1, Temp.size());
+    }
+
 
     /**
      * Oblicza dystans między dwoma punktami
@@ -173,6 +192,6 @@ public class Individual implements Comparable<Individual> {
     @Override
     public int compareTo(Individual other) {
         // Compare books based on their publication year
-        return Integer.compare(this.sumOfDistances(), other.sumOfDistances());
+        return Integer.compare(this.sumOfDistances(this.listOfDistances), other.sumOfDistances(other.listOfDistances));
     }
 }
