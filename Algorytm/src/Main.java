@@ -47,11 +47,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        List<City> miasta = loadCities();
+        List<City> miasta = Repository.loadTSPFile();
+        Cities = Repository.loadTSPFile();
 
-        //Population pop = algorytm(miasta);
+        Population pop = algorytm(miasta);
 
-        //savePop(pop);
+        savePop(pop);
 
         Individual New = new Individual(miasta);
         Individual Parent1 = new Individual(miasta);

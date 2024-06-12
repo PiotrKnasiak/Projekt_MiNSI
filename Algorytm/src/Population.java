@@ -6,7 +6,7 @@ import java.util.function.DoubleToIntFunction;
  */
 public class Population {
     List<City> ListOfCities;
-    List<Individual> individuals;
+    List<Individual> individuals= new ArrayList<>();
     double pc = 0.2, pm = 0.01;//prawdopodobieństwo krzyżowania i mutacji
     Random rand = new Random();
 
@@ -26,7 +26,7 @@ public class Population {
         this.pm = pm;
 
         for (int i = 0; i < numberOfInd; i++) {
-            individuals.set(i, new Individual(ListOfCities));
+            individuals.add( new Individual(ListOfCities));
         }
     }
 
@@ -48,7 +48,7 @@ public class Population {
         this.pm = pm;
 
         for (int i = 0; i < parents.size(); i++) {
-            individuals.set(i, parents.get(i));
+            individuals.add(parents.get(i));
         }
 
         // osobnicy z pary rodziców = {(rozmiarPop - ileRodziców) * 2 / ileRodzów} <-
@@ -64,15 +64,17 @@ public class Population {
 
             while (j < numberOfCh && i + 2 < numberOfInd) {
                 if (i % 2 == 0) {
-                    individuals.set(i, new Individual(parent1, parent2, crossPoint1, crossPoint2));
+                    individuals.add( new Individual(parent1, parent2, crossPoint1, crossPoint2));
                     i++;
                 } else {
-                    individuals.set(i, new Individual(parent2, parent1, crossPoint1, crossPoint2));
+                    individuals.add( new Individual(parent2, parent1, crossPoint1, crossPoint2));
                     i++;
                 }
 
                 j++;
             }
+
+            System.out.println(numberOfCh);
 
             pInd += 2;
         }
@@ -113,7 +115,7 @@ public class Population {
         sort();
 
         for (int i = 0; i < howMany; i++) {
-            selectedInds.set(i, individuals.get(i));
+            selectedInds.add( individuals.get(i));
         }
 
         return selectedInds;

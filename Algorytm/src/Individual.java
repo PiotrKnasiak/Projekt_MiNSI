@@ -5,7 +5,7 @@ import java.util.*;
  */
 public class Individual implements Comparable<Individual> {
     // lp nic tu nie znaczy
-    public List<Integer> listOfCities;
+    public List<Integer> listOfCities = new ArrayList<>();
     public List<Integer> listOfDistances;// doesnt work till i dont get data from file
     private Random rand = new Random();
 
@@ -32,21 +32,20 @@ public class Individual implements Comparable<Individual> {
     public Individual(List<City> listOfCities) {
         // losuje tyle losowych liczb, ile jest miast of (od 0 do ilczby miast-1)
         // tl;dr -> losuje indexy miast jakie przypisać
-//        int[] cities = rand.ints(0, listOfCities.size()).distinct().limit(listOfCities.size()).toArray();
-//
-//        for (int i = 0; i < cities.length; i++)
-//        {
-//            this.listOfCities.set(i, cities[i]);
-//        }
-//        this.listOfCities.set(cities.length, cities[0]);
-//
-//        for (int i = 0; i < cities.length - 1; i++) {
-//            City c1 = listOfCities.get(cities[i]), c2 = listOfCities.get(cities[i + 1]);
-//            this.listOfDistances.set(i, c1.distance(c2));
-//        }
-//        // odległość pierwszego od ostatniego
-//        this.listOfDistances.set(cities.length - 1,
-//                listOfCities.get(cities[0]).distance(listOfCities.get(cities[cities.length - 1])));
+        int[] cities = rand.ints(0, listOfCities.size()).distinct().limit(listOfCities.size()).toArray();
+
+
+
+        for (int i = 0; i < cities.length; i++)
+        {
+            System.out.println(cities[i]);
+            this.listOfCities.add(cities[i]);
+        }
+        this.listOfCities.add( cities[0]);
+
+        calculateDistances();
+        // odległość pierwszego od ostatniego
+
     }
 
     public int sumOfDistances(List<Integer> TemplistOfDistances) {
@@ -139,16 +138,17 @@ public class Individual implements Comparable<Individual> {
      * Oblicza dystanse między miastami
      */
     public void calculateDistances() {
-        listOfDistances = new ArrayList<>(Collections.nCopies(listOfCities.size(), 0));
+        listOfDistances = new ArrayList<>(listOfCities.size());
         for (int i = 0; i < listOfCities.size(); i++) {
             if (i != 0) {
-                listOfDistances.set(i, (int) calculateDistance(
-                        Main.Cities.get(listOfCities.get(i)).x,
+                listOfDistances.add((int) calculateDistance(
+                        Main.Cities.get(
+                                listOfCities.get(i)).x,
                         Main.Cities.get(listOfCities.get(i)).y,
                         Main.Cities.get(listOfCities.get(i - 1)).x,
                         Main.Cities.get(listOfCities.get(i - 1)).y));
             } else {
-                listOfDistances.set(i, 0);
+                listOfDistances.add(0);
             }
         }
     }
