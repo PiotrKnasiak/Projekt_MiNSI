@@ -19,6 +19,7 @@ public class Population {
      * @param pm           szansa na mutację
      */
     public Population(int numberOfInd, List<City> ListOfCities, double pc, double pm) {
+        numberOfInd += numberOfInd % 2; // parzysta liczba osobników
         this.ListOfCities = ListOfCities;
         this.pc = pc;
         this.pm = pm;
@@ -29,7 +30,7 @@ public class Population {
     }
 
     /**
-     * Konstruktor generujący nową populację z krzyżowania
+     * Konstruktor generujący nową populację z krzyżowania i z mutacją
      * 
      * @param parents      lista rodziców
      * @param numberOfInd  ilość osobników w polulacji
@@ -40,6 +41,7 @@ public class Population {
      */
     public Population(List<Individual> parents, int numberOfInd, List<City> ListOfCities, double pc, double pm,
             int crossPoint1, int crossPoint2) {
+        numberOfInd += numberOfInd % 2; // parzysta liczba osobników
         this.ListOfCities = ListOfCities;
         this.pc = pc;
         this.pm = pm;
@@ -51,21 +53,27 @@ public class Population {
         // osobnicy z pary rodziców = {(rozmiarPop - ileRodziców) * 2 / ileRodzów} <-
         // zaokrąglone do góry
 
-        int pInd1 = 0, pInd2 = 1;
+        int pInd = 0;
         for (int i = parents.size(); i < numberOfInd;) {
-            Individual parent1 = individuals.get(pInd1), parent2 = individuals.get(pInd2);
+
+            Individual parent1 = individuals.get(pInd), parent2 = individuals.get(pInd + 1);
             int numberOfCh = (int) Math.ceil((numberOfInd - parents.size()) * 2 / parents.size());
+
             int j = 0;
 
             while (j < numberOfCh && i + 2 < numberOfInd) {
-                individuals.set(i, new Individual(parent1, parent2, crossPoint1, crossPoint2));
-                i++;
-                individuals.set(i, new Individual(parent2, parent1, crossPoint1, crossPoint2));
-                i++;
+                if (i % 2 == 0) {
+                    individuals.set(i, new Individual(parent1, parent2, crossPoint1, crossPoint2));
+                    i++;
+                } else {
+                    individuals.set(i, new Individual(parent2, parent1, crossPoint1, crossPoint2));
+                    i++;
+                }
+
+                j++;
             }
 
-            pInd1++;
-            pInd2++;
+            pInd += 2;
         }
 
         for (int i = 0; i < numberOfInd; i++) {
@@ -74,10 +82,16 @@ public class Population {
         }
     }
 
+    /**
+     * @return Ilość osobników
+     */
     public int size() {
         return individuals.size();
     }
 
+    /**
+     * Sortuje osobniki w tej populacji
+     */
     public void sort() {
         Collections.sort(individuals);
     }
