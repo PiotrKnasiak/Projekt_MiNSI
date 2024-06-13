@@ -102,6 +102,7 @@ public class Main {
          * poptemp.individuals.add(New);
          * Repository.SavePopulation(poptemp, "Individual");
          */
+        Repository.SaveResults(5, Arrays.asList(1, 2, 34, 4, 5), false);
         System.out.println();
     }
 

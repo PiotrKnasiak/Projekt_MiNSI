@@ -128,27 +128,28 @@ public class Repository {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
-        String addition = "Local";
-
-        if (!isLocal)
-            addition = "Global";
+        String addition = isLocal ? "Local" : "Global";
 
         String outputFile = Paths.get(projectPath, folderPath, "Wyniki" + ListOfBest.size() + addition + ".txt")
                 .toString();
-        BufferedWriter writer = null;
 
+        BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(outputFile));
-
             for (Integer i : ListOfBest) {
-                // zapisz wszystko w jednym wierszu i przejdz do nastepnego
                 writer.write(i + ";");
-
             }
             writer.newLine();
-
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
