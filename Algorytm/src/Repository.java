@@ -117,6 +117,8 @@ public class Repository {
     }
 
     /**
+     * Zapisuje wyniki oddzielając je średnikiem ( ; ). Wszystkie wyniki są w jednej
+     * linii
      * 
      * @param numOfCities Ilość miast zapisywanego wyniku
      * @param ListOfBest  Lista {@code List<Integer>} najlepszych wyników
