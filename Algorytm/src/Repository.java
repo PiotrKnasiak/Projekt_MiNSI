@@ -130,7 +130,7 @@ public class Repository {
 
         String addition = isLocal ? "Local" : "Global";
 
-        String outputFile = Paths.get(projectPath, folderPath, "Wyniki" + ListOfBest.size() + addition + ".txt")
+        String outputFile = Paths.get(projectPath, folderPath, "Wyniki" + numOfCities + addition + ".txt")
                 .toString();
 
         BufferedWriter writer = null;

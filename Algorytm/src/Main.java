@@ -101,8 +101,10 @@ public class Main {
          * New.calculateDistances();
          * poptemp.individuals.add(New);
          * Repository.SavePopulation(poptemp, "Individual");
+         * 
+         * Repository.SaveResults(5, Arrays.asList(1, 2, 34, 4, 5), false);
          */
-        Repository.SaveResults(5, Arrays.asList(1, 2, 34, 4, 5), false);
+
         System.out.println();
     }
 
