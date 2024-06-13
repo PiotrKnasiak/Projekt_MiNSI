@@ -116,5 +116,33 @@ public class Repository {
         }
     }
 
+    /**
+     * Zapisuje Wyniki do pliku
+     *
+     * @param ListOfBest lista double zawierająca wyniki
+     *
+     */
+    public static void SaveResults(List<Double> ListOfBest) {
+        if (projectPath.endsWith("\\src"))
+            projectPath = Paths.get("").toAbsolutePath().getParent().toString();
+
+        String outputFile = Paths.get(projectPath, folderPath, "Wyniki.txt").toString();
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(outputFile));
+
+            for (Double i : ListOfBest) {
+                //zapisz wszystko w jednym wierszu i przejdz do nastepnego
+                writer.write(i + ";");
+
+            }
+            writer.newLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
