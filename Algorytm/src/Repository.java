@@ -7,7 +7,6 @@ import java.util.List;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-
 public class Repository {
     private static String projectPath = Paths.get("").toAbsolutePath().toString();
     private static final String folderPath = "data"; // Wybrany folder w projekcie
@@ -54,6 +53,7 @@ public class Repository {
 
         return cities;
     }
+
     /**
      * Zapisuje populację do pliku
      *
@@ -65,7 +65,7 @@ public class Repository {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
-        String outputFile = Paths.get(projectPath, folderPath, fileName+".txt").toString();
+        String outputFile = Paths.get(projectPath, folderPath, fileName + ".txt").toString();
         BufferedWriter writer = null;
 
         try {
@@ -86,7 +86,7 @@ public class Repository {
                 temp += i.sumDistance() + ";";
 
                 // 4. Odległości między miastami
-                if(!i.listOfDistances.isEmpty()) {
+                if (!i.listOfDistances.isEmpty()) {
 
                     for (int d : i.listOfDistances) {
                         temp += d + ";";
@@ -117,23 +117,29 @@ public class Repository {
     }
 
     /**
-     * Zapisuje Wyniki do pliku
-     *
-     * @param ListOfBest lista double zawierająca wyniki
-     *
+     * 
+     * @param numOfCities Ilość miast zapisywanego wyniku
+     * @param ListOfBest  Lista {@code List<Integer>} najlepszych wyników
+     * @param isLocal     Czy podane wyniki są lokalne, czy nie (globalne)
      */
-    public static void SaveResults(List<Double> ListOfBest) {
+    public static void SaveResults(int numOfCities, List<Integer> ListOfBest, boolean isLocal) {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
-        String outputFile = Paths.get(projectPath, folderPath, "Wyniki.txt").toString();
+        String addition = "Local";
+
+        if (!isLocal)
+            addition = "Global";
+
+        String outputFile = Paths.get(projectPath, folderPath, "Wyniki" + ListOfBest.size() + addition + ".txt")
+                .toString();
         BufferedWriter writer = null;
 
         try {
             writer = new BufferedWriter(new FileWriter(outputFile));
 
-            for (Double i : ListOfBest) {
-                //zapisz wszystko w jednym wierszu i przejdz do nastepnego
+            for (Integer i : ListOfBest) {
+                // zapisz wszystko w jednym wierszu i przejdz do nastepnego
                 writer.write(i + ";");
 
             }
@@ -143,6 +149,5 @@ public class Repository {
             e.printStackTrace();
         }
     }
-
 
 }

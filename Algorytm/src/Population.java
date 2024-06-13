@@ -55,16 +55,18 @@ public class Population {
         // zaokrąglone do góry
 
         int pInd = 0;
-        for (int i = parents.size(); i < numberOfInd;) {
+        int numberOfCh = (int) Math.ceil((numberOfInd - parents.size()) * 2 / parents.size());
+
+        for (int i = parents.size(); i < parents.size() * numberOfCh;) {
 
             Individual parent1 = individuals.get(pInd), parent2 = individuals.get(pInd + 1);
-            int numberOfCh = (int) Math.ceil((numberOfInd - parents.size()) * 2 / parents.size());
+            numberOfCh = 2;
 
             int j = 0;
 
             while (j < numberOfCh && i < numberOfInd) {
 
-                if (i % 2 == 0) {
+                if (j % 2 == 0) {
                     individuals.add(new Individual(parent1, parent2, crossPoint1, crossPoint2));
                     i++;
                 } else {
@@ -79,10 +81,15 @@ public class Population {
 
         }
 
+        while (individuals.size() < Main.POP_SIZE) {
+            individuals.add(new Individual(ListOfCities));
+        }
+
         for (int i = 0; i < numberOfInd; i++) {
             if (rand.nextDouble() < pm)
                 individuals.get(i).mutate((int) pm * 100);
         }
+
     }
 
     /**
