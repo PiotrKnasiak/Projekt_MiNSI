@@ -8,7 +8,7 @@ public class Main {
     public static final double PM = 0.01;
     public static final int MAX_EVALS = 500;
     public static final double CROSS_MULT_1 = 0.3, CROSS_MULT_2 = 0.6;
-    public static final int POP_SIZE = 100;
+    public static final int POP_SIZE = 280;
     public static List<City> Cities = new ArrayList<City>();
 
     public static Random rand = new Random();
@@ -44,9 +44,7 @@ public class Main {
         return currPop;
     }
 
-    public static void savePop(Population pop) {
 
-    }
 
     public static void main(String[] args) {
         String fileName = "a280.tsp";
@@ -55,7 +53,7 @@ public class Main {
 
         Population pop = algorytm(miasta);
 
-        savePop(pop);
+
 
         Individual New = new Individual(miasta);
         Individual Parent1 = new Individual(miasta);
@@ -87,6 +85,13 @@ public class Main {
 
         // Testowanie ListySumyDystansów
         System.out.println("Increasing Distance: " + New.GetListOfSumDistances());
+
+        //Testowanie zapisu populacji
+        Population poptemp= new Population(POP_SIZE, miasta, PC, PM);
+
+        New.calculateDistances();
+        poptemp.individuals.add(New);
+        Repository.SavePopulation(poptemp, "Individual");
 
     }
 
