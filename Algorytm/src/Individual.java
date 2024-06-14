@@ -132,12 +132,16 @@ public class Individual implements Comparable<Individual> {
         listOfDistances = new ArrayList<>(listOfCities.size());
         for (int i = 0; i < listOfCities.size(); i++) {
             if (i != 0) {
-                listOfDistances.add((int) calculateDistance(
-                        Main.Cities.get(
-                                listOfCities.get(i)).x,
-                        Main.Cities.get(listOfCities.get(i)).y,
-                        Main.Cities.get(listOfCities.get(i - 1)).x,
-                        Main.Cities.get(listOfCities.get(i - 1)).y));
+                listOfDistances
+                        .add(Main.Cities.get(listOfCities.get(i)).distance(Main.Cities.get(listOfCities.get(i - 1))));
+                /*
+                 * listOfDistances.add((int) calculateDistance(
+                 * 
+                 * Main.Cities.get(listOfCities.get(i)).x,
+                 * Main.Cities.get(listOfCities.get(i)).y,
+                 * Main.Cities.get(listOfCities.get(i - 1)).x,
+                 * Main.Cities.get(listOfCities.get(i - 1)).y));
+                 */
             } else {
                 listOfDistances.add(0);
             }

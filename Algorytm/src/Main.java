@@ -6,7 +6,7 @@ import java.util.Random;
 public class Main {
     public static final double PC = 0.2;
     public static final double PM = 0.1;
-    public static final int EVALS_MULT = 10;
+    public static final int EVALS_MULT = 2;
     public static final double CROSS_MULT_1 = 0.3, CROSS_MULT_2 = 0.6;
     public static final int POP_SIZE = 20;
 
