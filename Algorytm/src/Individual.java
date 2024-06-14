@@ -59,7 +59,7 @@ public class Individual implements Comparable<Individual> {
         Map<Integer, Integer> mapping1 = new HashMap<>();
         Map<Integer, Integer> mapping2 = new HashMap<>();
 
-        // Step 1: Copy the segment from parent1 to the offspring
+        // Step 1: Kopiowanie segmentu z rodzica 1 do potomka
         for (int i = crossPoint1; i <= crossPoint2; i++) {
             offspring.set(i, parent1.listOfCities.get(i));
             mapping1.put(parent1.listOfCities.get(i), parent2.listOfCities.get(i));
@@ -67,7 +67,7 @@ public class Individual implements Comparable<Individual> {
 
         }
 
-        // Step 2: Resolve conflicts and fill the rest from parent2
+        // Step 2: Rozwiązywanie konfliktów
         for (int i = 0; i < size; i++) {
             if (i >= crossPoint1 && i <= crossPoint2) {
                 continue;
@@ -80,7 +80,7 @@ public class Individual implements Comparable<Individual> {
             offspring.set(i, gene);
         }
 
-        // Step 3: Fill the missing elements from parent1
+        // Step 3: Wypełnij brakujące miejsca segmentami z rodzica 1
         for (int i = 0; i < size; i++) {
             if (offspring.get(i) == null) {
                 offspring.set(i, parent1.listOfCities.get(i));

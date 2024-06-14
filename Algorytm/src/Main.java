@@ -12,7 +12,7 @@ public class Main {
 
     public static List<City> Cities = new ArrayList<City>();
     public static List<Integer> bestLocal = new ArrayList<>(POP_SIZE * EVALS_MULT);
-    public static List<Integer> bestGlobal = new ArrayList<>(POP_SIZE * EVALS_MULT);
+    public static List<Integer> current = new ArrayList<>(POP_SIZE * EVALS_MULT);
     public static int bestIndex = 0;
     public static Random rand = new Random();
 
@@ -34,12 +34,7 @@ public class Main {
                 bestLocal.add(debestaL);
             }
 
-            currPop.sort();
-            for (Individual i : currPop.individuals) {
-                if (debestaG == -1 || debestaG > i.sumDistance())
-                    debestaG = i.sumDistance();
-                bestGlobal.add(debestaG);
-            }
+            current.add(debestaG);
 
             Population childPop = new Population(currPop.select(), POP_SIZE, ListOfCities, PC, PM, crossPoint1,
                     crossPoint2);
@@ -59,7 +54,7 @@ public class Main {
 
         Population finalPop = algorytm(Cities);
 
-        Repository.SaveResults(finalPop.ListOfCities.size(), bestGlobal, false);
+        Repository.SaveResults(finalPop.ListOfCities.size(), current, false);
         Repository.SaveResults(finalPop.ListOfCities.size(), bestLocal, true);
 
         /*

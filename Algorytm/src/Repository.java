@@ -122,13 +122,13 @@ public class Repository {
      * 
      * @param numOfCities Ilość miast zapisywanego wyniku
      * @param ListOfBest  Lista {@code List<Integer>} najlepszych wyników
-     * @param isLocal     Czy podane wyniki są lokalne, czy nie (globalne)
+     * @param isGlobal    Czy podane wyniki są lokalne, czy nie (globalne)
      */
-    public static void SaveResults(int numOfCities, List<Integer> ListOfBest, boolean isLocal) {
+    public static void SaveResults(int numOfCities, List<Integer> ListOfBest, boolean isGlobal) {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
-        String addition = isLocal ? "Local" : "Global";
+        String addition = isGlobal ? "BestGlobal" : "Current";
 
         String outputFile = Paths.get(projectPath, folderPath, "Wyniki" + numOfCities + addition + ".txt")
                 .toString();

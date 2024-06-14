@@ -18,3 +18,7 @@ Jak krzyżować:
 	3. Część która pochodzi od pierwszego rodzica (w pierwszym potomku) 
 		naprawić (powtórzone punkty zamienić na te których nie ma)
 		(dla drugiego potomka naprawia się część od drugiego rodzica)
+
+Zestawy: (2 na osobę, po 6 wielkości(co druga z wykresu, ewaluacja=ok. 10000) -> w sunie 12 wykr. na osobę) z maila
+
+Wykresy: bestGlobal, current
