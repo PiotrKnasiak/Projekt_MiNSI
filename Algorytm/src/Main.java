@@ -6,14 +6,15 @@ import java.util.Random;
 public class Main {
     public static final double PC = 0.2;
     public static final double PM = 0.1;
-    public static final int EVALS_MULT = 2;
+    public static final int EVALS_MULT = 10000;
     public static final double CROSS_MULT_1 = 0.3, CROSS_MULT_2 = 0.6;
-    public static final int POP_SIZE = 20;
 
+    public static int[] popList = { 10, 50, 200, 400, 600, 1500 };
+    public static int POP_SIZE = 10; // 10, 50, 200, 400, 600, 1500
     public static List<City> Cities = new ArrayList<City>();
-    public static List<Integer> bestLocal = new ArrayList<>(POP_SIZE * EVALS_MULT);
-    public static List<Integer> current = new ArrayList<>(POP_SIZE * EVALS_MULT);
-    public static int bestIndex = 0;
+    public static List<Integer> bestGlobal = new ArrayList<>(EVALS_MULT);
+    public static List<Integer> avgCurrent = new ArrayList<>(EVALS_MULT);
+    public static int max101 = 0, max280 = 0;
     public static Random rand = new Random();
 
     public static Population algorytm(List<City> ListOfCities) {
@@ -25,22 +26,27 @@ public class Main {
         int debestaG = -1;
 
         while (currEvals < POP_SIZE * EVALS_MULT) {
-            int debestaL = -1;
+            int currSum = 0;
             currEvals += POP_SIZE;
 
             for (Individual i : currPop.individuals) {
-                if (debestaL == -1 || debestaL > i.sumDistance())
-                    debestaL = i.sumDistance();
-                bestLocal.add(debestaL);
+                int sumDist = i.sumDistance();
+                if (debestaG == -1 || debestaG > sumDist)
+                    debestaG = sumDist;
+                currSum += sumDist;
             }
 
-            current.add(debestaG);
+            bestGlobal.add(debestaG);
+            avgCurrent.add((int) (currSum / POP_SIZE));
 
             Population childPop = new Population(currPop.select(), POP_SIZE, ListOfCities, PC, PM, crossPoint1,
                     crossPoint2);
 
             currPop = childPop;
 
+            if ((currEvals / POP_SIZE) % 500 == 0) {
+                System.out.println("Progress: " + currEvals / POP_SIZE / 100 + "%");
+            }
         }
 
         currPop.sort();
@@ -48,14 +54,42 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String fileName = "a280.tsp";
+        // piotr: a280, eil101
+        String fileName1 = "a280.tsp";
+        String fileName2 = "eil101.tsp";
 
-        Cities = Repository.loadTSPFile(fileName);
+        // kacper: kroA100, lin318
+        // String fileName1 = "kroA100.tsp";
+        // String fileName2 = "lin318.tsp";
 
-        Population finalPop = algorytm(Cities);
+        for (int i = popList.length - 1; i < popList.length; i++) {
+            POP_SIZE = popList[i];
 
-        Repository.SaveResults(finalPop.ListOfCities.size(), current, false);
-        Repository.SaveResults(finalPop.ListOfCities.size(), bestLocal, true);
+            // Plik 1
+
+            /*
+             * Cities = Repository.loadTSPFile(fileName1);
+             * 
+             * Population finalPop = algorytm(Cities);
+             * 
+             * Repository.SaveResults(finalPop.ListOfCities.size(), avgCurrent, false);
+             * Repository.SaveResults(finalPop.ListOfCities.size(), bestGlobal, true);
+             * 
+             * bestGlobal = new ArrayList<>(EVALS_MULT);
+             * avgCurrent = new ArrayList<>(EVALS_MULT);
+             */
+            // Plik 2
+
+            Cities = Repository.loadTSPFile(fileName2);
+
+            Population finalPop2 = algorytm(Cities);
+
+            Repository.SaveResults(finalPop2.ListOfCities.size(), avgCurrent, false);
+            Repository.SaveResults(finalPop2.ListOfCities.size(), bestGlobal, true);
+
+            bestGlobal = new ArrayList<>(EVALS_MULT);
+            avgCurrent = new ArrayList<>(EVALS_MULT);
+        }
 
         /*
          * Individual New = new Individual(miasta);

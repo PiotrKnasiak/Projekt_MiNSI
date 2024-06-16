@@ -10,7 +10,6 @@ import java.io.FileWriter;
 public class Repository {
     private static String projectPath = Paths.get("").toAbsolutePath().toString();
     private static final String folderPath = "data"; // Wybrany folder w projekcie
-    private static final String fileName = "a280.tsp"; // Nazwa pliku
 
     /**
      * Wczytuje plik TSP
@@ -60,7 +59,6 @@ public class Repository {
      * @param pop      populacja
      * @param fileName nazwa pliku
      */
-
     public static void SavePopulation(Population pop, String fileName) {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
@@ -128,9 +126,12 @@ public class Repository {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
-        String addition = isGlobal ? "BestGlobal" : "Current";
+        String addition = isGlobal ? "BestGlobal" : "AvgCurrent";
 
-        String outputFile = Paths.get(projectPath, folderPath, "Wyniki" + numOfCities + addition + ".txt")
+        String name = "Wyniki" + numOfCities + addition + '_' + Main.POP_SIZE;
+
+        String outputFile = Paths
+                .get(projectPath, folderPath, name + ".txt")
                 .toString();
 
         BufferedWriter writer = null;

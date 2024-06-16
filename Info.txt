@@ -21,4 +21,4 @@ Jak krzyżować:
 
 Zestawy: (2 na osobę, po 6 wielkości(co druga z wykresu, ewaluacja=ok. 10000) -> w sunie 12 wykr. na osobę) z maila
 
-Wykresy: bestGlobal, current
+Wykresy: bestGlobal, avgCurrent
