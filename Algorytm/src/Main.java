@@ -55,32 +55,32 @@ public class Main {
 
     public static void main(String[] args) {
         // piotr: a280, eil101
-        String fileName1 = "a280.tsp";
-        String fileName2 = "eil101.tsp";
+//        String fileName1 = "a280.tsp";
+//        String fileName2 = "eil101.tsp";
 
-        // kacper: kroA100, lin318
-        // String fileName1 = "kroA100.tsp";
-        // String fileName2 = "lin318.tsp";
+        // kacper: kroA100, lin318 Oskar?
+         String fileName1 = "kroA100.tsp";
+         String fileName2 = "lin318.tsp";
 
-        for (int i = popList.length - 1; i < popList.length; i++) {
+        for (int i = popList.length - 1; i >= 0; i--) {
             POP_SIZE = popList[i];
-
+            System.out.println("Population size: " + POP_SIZE);
             // Plik 1
 
             /*
              * Cities = Repository.loadTSPFile(fileName1);
-             * 
+             *
              * Population finalPop = algorytm(Cities);
-             * 
+             *
              * Repository.SaveResults(finalPop.ListOfCities.size(), avgCurrent, false);
              * Repository.SaveResults(finalPop.ListOfCities.size(), bestGlobal, true);
-             * 
+             *
              * bestGlobal = new ArrayList<>(EVALS_MULT);
              * avgCurrent = new ArrayList<>(EVALS_MULT);
              */
             // Plik 2
 
-            Cities = Repository.loadTSPFile(fileName2);
+            Cities = Repository.loadTSPFile(fileName1);
 
             Population finalPop2 = algorytm(Cities);
 
