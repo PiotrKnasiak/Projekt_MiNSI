@@ -16,6 +16,7 @@ public class Main {
     public static List<Integer> avgCurrent = new ArrayList<>(EVALS_MULT);
     public static int max101 = 0, max280 = 0;
     public static Random rand = new Random();
+    public static int wyk = 0;
 
     public static Population algorytm(List<City> ListOfCities) {
         Population currPop = new Population(POP_SIZE, ListOfCities, PC, PM);
@@ -58,82 +59,84 @@ public class Main {
         // String fileName1 = "a280.tsp";
         // String fileName2 = "eil101.tsp";
 
-        // kacper: kroA100, lin318 Oskar?
-        String fileName1 = "kroA100.tsp";
-        String fileName2 = "lin318.tsp";
+        // oskar: kroA100, lin318
+        String fileName1 = "lin318.tsp";
+        String fileName2 = "kroA100.tsp";
 
-        for (int i = popList.length - 1; i >= 0; i--) {
-            POP_SIZE = popList[i];
-            System.out.println("Population size: " + POP_SIZE);
-            // Plik 1
+        for (wyk = 0; wyk < 30; wyk++) {
+
+            for (int i = popList.length - 1; i >= 0; i--) {
+                POP_SIZE = popList[i];
+                System.out.println("Population size: " + POP_SIZE);
+                // Plik 1
+
+                /*
+                 * Cities = Repository.loadTSPFile(fileName1);
+                 *
+                 * Population finalPop = algorytm(Cities);
+                 *
+                 * Repository.SaveResults(finalPop.ListOfCities.size(), avgCurrent, false);
+                 * Repository.SaveResults(finalPop.ListOfCities.size(), bestGlobal, true);
+                 *
+                 * bestGlobal = new ArrayList<>(EVALS_MULT);
+                 * avgCurrent = new ArrayList<>(EVALS_MULT);
+                 */
+                // Plik 2
+
+                Cities = Repository.loadTSPFile(fileName1);
+
+                Population finalPop2 = algorytm(Cities);
+
+                Repository.SaveResults(finalPop2.ListOfCities.size(), avgCurrent, false);
+                Repository.SaveResults(finalPop2.ListOfCities.size(), bestGlobal, true);
+
+                bestGlobal = new ArrayList<>(EVALS_MULT);
+                avgCurrent = new ArrayList<>(EVALS_MULT);
+            }
 
             /*
-             * Cities = Repository.loadTSPFile(fileName1);
-             *
-             * Population finalPop = algorytm(Cities);
-             *
-             * Repository.SaveResults(finalPop.ListOfCities.size(), avgCurrent, false);
-             * Repository.SaveResults(finalPop.ListOfCities.size(), bestGlobal, true);
-             *
-             * bestGlobal = new ArrayList<>(EVALS_MULT);
-             * avgCurrent = new ArrayList<>(EVALS_MULT);
+             * Individual New = new Individual(miasta);
+             * Individual Parent1 = new Individual(miasta);
+             * Individual Parent2 = new Individual(miasta);
+             * New.crossover(Parent1, Parent2, 1, 5);
+             * 
+             * System.out.println("Parents:");
+             * System.out.println(Parent1.listOfCities);
+             * System.out.println(Parent2.listOfCities);
+             * System.out.println("Child:");
+             * System.out.println(New.listOfCities);
+             * 
+             * // Testowanie wczytywania pliku
+             * 
+             * Cities = Repository.loadTSPFile(fileName);
+             * 
+             * // for (City city : Cities) {
+             * // System.out.println(city);
+             * // }
+             * 
+             * // Testowanie obliczania dystansu
+             * New.calculateDistances();
+             * System.out.println("");
+             * System.out.println("ListOfDistances: " + New.listOfDistances);
+             * New.calculateDistances();
+             * 
+             * // Testowanie sumy dystansów
+             * System.out.println("SumOfDistances: " +
+             * New.sumOfDistances(New.listOfDistances));
+             * 
+             * // Testowanie ListySumyDystansów
+             * System.out.println("Increasing Distance: " + New.GetListOfSumDistances());
+             * 
+             * // Testowanie zapisu populacji
+             * Population poptemp = new Population(POP_SIZE, miasta, PC, PM);
+             * 
+             * New.calculateDistances();
+             * poptemp.individuals.add(New);
+             * Repository.SavePopulation(poptemp, "Individual");
+             * 
+             * Repository.SaveResults(5, Arrays.asList(1, 2, 34, 4, 5), false);
              */
-            // Plik 2
-
-            Cities = Repository.loadTSPFile(fileName1);
-
-            Population finalPop2 = algorytm(Cities);
-
-            Repository.SaveResults(finalPop2.ListOfCities.size(), avgCurrent, false);
-            Repository.SaveResults(finalPop2.ListOfCities.size(), bestGlobal, true);
-
-            bestGlobal = new ArrayList<>(EVALS_MULT);
-            avgCurrent = new ArrayList<>(EVALS_MULT);
         }
-
-        /*
-         * Individual New = new Individual(miasta);
-         * Individual Parent1 = new Individual(miasta);
-         * Individual Parent2 = new Individual(miasta);
-         * New.crossover(Parent1, Parent2, 1, 5);
-         * 
-         * System.out.println("Parents:");
-         * System.out.println(Parent1.listOfCities);
-         * System.out.println(Parent2.listOfCities);
-         * System.out.println("Child:");
-         * System.out.println(New.listOfCities);
-         * 
-         * // Testowanie wczytywania pliku
-         * 
-         * Cities = Repository.loadTSPFile(fileName);
-         * 
-         * // for (City city : Cities) {
-         * // System.out.println(city);
-         * // }
-         * 
-         * // Testowanie obliczania dystansu
-         * New.calculateDistances();
-         * System.out.println("");
-         * System.out.println("ListOfDistances: " + New.listOfDistances);
-         * New.calculateDistances();
-         * 
-         * // Testowanie sumy dystansów
-         * System.out.println("SumOfDistances: " +
-         * New.sumOfDistances(New.listOfDistances));
-         * 
-         * // Testowanie ListySumyDystansów
-         * System.out.println("Increasing Distance: " + New.GetListOfSumDistances());
-         * 
-         * // Testowanie zapisu populacji
-         * Population poptemp = new Population(POP_SIZE, miasta, PC, PM);
-         * 
-         * New.calculateDistances();
-         * poptemp.individuals.add(New);
-         * Repository.SavePopulation(poptemp, "Individual");
-         * 
-         * Repository.SaveResults(5, Arrays.asList(1, 2, 34, 4, 5), false);
-         */
-
         System.out.println();
     }
 

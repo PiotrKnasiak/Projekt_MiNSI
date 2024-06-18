@@ -128,7 +128,7 @@ public class Repository {
 
         String addition = isGlobal ? "BestGlobal" : "AvgCurrent";
 
-        String name = "Wyniki" + numOfCities + addition + '_' + Main.POP_SIZE;
+        String name = "Wyniki" + Main.wyk + numOfCities + addition + '_' + Main.POP_SIZE;
 
         String outputFile = Paths
                 .get(projectPath, folderPath, name + ".txt")
