@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
+import java.time.Duration;
+import java.time.Instant;
 public class Main {
     public static final double PC = 0.2;
     public static final double PM = 0.1;
@@ -62,9 +63,9 @@ public class Main {
         // oskar: kroA100, lin318
         String fileName1 = "lin318.tsp";
         String fileName2 = "kroA100.tsp";
-
+        Instant start = Instant.now();
         for (wyk = 0; wyk < 30; wyk++) {
-
+            System.out.println("Wykonanie nr: " + wyk);
             for (int i = popList.length - 1; i >= 0; i--) {
                 POP_SIZE = popList[i];
                 System.out.println("Population size: " + POP_SIZE);
@@ -77,7 +78,7 @@ public class Main {
                  *
                  * Repository.SaveResults(finalPop.ListOfCities.size(), avgCurrent, false);
                  * Repository.SaveResults(finalPop.ListOfCities.size(), bestGlobal, true);
-                 *
+                 *o
                  * bestGlobal = new ArrayList<>(EVALS_MULT);
                  * avgCurrent = new ArrayList<>(EVALS_MULT);
                  */
@@ -87,11 +88,18 @@ public class Main {
 
                 Population finalPop2 = algorytm(Cities);
 
-                Repository.SaveResults(finalPop2.ListOfCities.size(), avgCurrent, false);
-                Repository.SaveResults(finalPop2.ListOfCities.size(), bestGlobal, true);
+                Repository.SaveResults(finalPop2.ListOfCities.size(), avgCurrent, false,wyk);
+                Repository.SaveResults(finalPop2.ListOfCities.size(), bestGlobal, true,wyk);
 
                 bestGlobal = new ArrayList<>(EVALS_MULT);
                 avgCurrent = new ArrayList<>(EVALS_MULT);
+                Instant now = Instant.now();
+                Duration elapsedTime = Duration.between(start, now);
+                long hours = elapsedTime.toHours();
+                long minutes = elapsedTime.toMinutes() % 60;
+                long seconds = elapsedTime.getSeconds() % 60;
+
+                System.out.println("Czas trwania: " + hours + " godz., " + minutes + " min., " + seconds + " sek.");
             }
 
             /*
@@ -137,6 +145,7 @@ public class Main {
              * Repository.SaveResults(5, Arrays.asList(1, 2, 34, 4, 5), false);
              */
         }
+        System.out.println("Program zakończył działanie.");
         System.out.println();
     }
 
