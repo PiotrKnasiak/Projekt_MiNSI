@@ -5,6 +5,7 @@ public class Individual implements Comparable<Individual> {
     public List<Integer> listOfCities = new ArrayList<>();
     public List<Integer> listOfDistances;// doesnt work till i dont get data from file
     private Random rand = new Random();
+    public List<Integer> bits = new ArrayList<>();
 
     /**
      * Konstruktor generujący nowego osobnika z krzyżowania
@@ -19,6 +20,15 @@ public class Individual implements Comparable<Individual> {
         // nigdzie indziej nie użyje się crossover, niż przy towrzeniu nowego osobnika
         // więc najlepiej przenieść kod funckji tutaj
         crossover(parent1, parent2, crossPoint1, crossPoint2);
+
+        // do bitów
+        for (int i = 0; i < this.listOfCities.size(); i++) {
+            String bs = Integer.toBinaryString(this.listOfCities.get(i));
+            for (Character cha : bs.toCharArray()) {
+                Integer sho = (cha == '0') ? 0 : 1;
+                bits.add(sho);
+            }
+        }
     }
 
     /**
@@ -39,6 +49,18 @@ public class Individual implements Comparable<Individual> {
         calculateDistances();
         // odległość pierwszego od ostatniego
 
+        // do bitów
+        for (int i = 0; i < this.listOfCities.size(); i++) {
+            String bs = Integer.toBinaryString(this.listOfCities.get(i));
+            for (Character cha : bs.toCharArray()) {
+                Integer sho = (cha == '0') ? 0 : 1;
+                bits.add(sho);
+            }
+        }
+    }
+
+    public static int calculateBits(int howManyC) {
+        return (int) Math.ceil(Math.log(howManyC) / Math.log(2)) * howManyC;
     }
 
     public int sumOfDistances(List<Integer> TemplistOfDistances) {

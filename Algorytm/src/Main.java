@@ -55,12 +55,12 @@ public class Main {
 
     public static void main(String[] args) {
         // piotr: a280, eil101
-//        String fileName1 = "a280.tsp";
-//        String fileName2 = "eil101.tsp";
+        // String fileName1 = "a280.tsp";
+        // String fileName2 = "eil101.tsp";
 
         // kacper: kroA100, lin318 Oskar?
-         String fileName1 = "kroA100.tsp";
-         String fileName2 = "lin318.tsp";
+        String fileName1 = "kroA100.tsp";
+        String fileName2 = "lin318.tsp";
 
         for (int i = popList.length - 1; i >= 0; i--) {
             POP_SIZE = popList[i];

@@ -5,10 +5,10 @@ import java.util.function.DoubleToIntFunction;
  * Cała populacja składająca się z osobników typu {@code Individual}
  */
 public class Population {
-    List<City> ListOfCities;
-    List<Individual> individuals = new ArrayList<>(Main.POP_SIZE);
-    double pc = 0.2, pm = 0.01;// prawdopodobieństwo krzyżowania i mutacji
-    Random rand = new Random();
+    public List<City> ListOfCities;
+    public List<Individual> individuals = new ArrayList<>(Main.POP_SIZE);
+    public double pc = 0.2, pm = 0.01;// prawdopodobieństwo krzyżowania i mutacji
+    public Random rand = new Random();
 
     /**
      * Konstruktor generujący pierwszą populację
@@ -90,6 +90,25 @@ public class Population {
                 individuals.get(i).mutate((int) pm * 100);
         }
 
+    }
+
+    /**
+     * Wybiera na, zasadzie ruletki, odpowiedniego osobnika
+     * 
+     * @return wybrany {@code Chromosome}
+     */
+    public List<Individual> selectR() {
+        double totalFitness = Arrays.stream(individuals.toArray()).mapToDouble(c -> 1 / (Double) c).sum();
+        double roulette = rand.nextDouble() * totalFitness;
+        double partialSum = 0;
+
+        for (Individual ind : individuals) {
+            partialSum += 1 / ind.sumDistance();
+            if (partialSum >= roulette) {
+                return individuals;
+            }
+        }
+        return individuals;
     }
 
     /**
