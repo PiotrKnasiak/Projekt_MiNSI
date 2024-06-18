@@ -8,7 +8,7 @@ public class Individual implements Comparable<Individual> {
     public List<Integer> bits = new ArrayList<>();
 
     /**
-     * Konstruktor generujący nowego osobnika z krzyżowania
+     * Konstruktor generujący nowego osobnika z krzyżowania PXM
      * 
      * @param parent1     {@code Individual} Pierwszy rodzic
      * @param parent2     {@code Individual} Drugi rodzic
@@ -17,9 +17,13 @@ public class Individual implements Comparable<Individual> {
      */
     public Individual(Individual parent1, Individual parent2, int crossPoint1, int crossPoint2) {
 
-        // nigdzie indziej nie użyje się crossover, niż przy towrzeniu nowego osobnika
-        // więc najlepiej przenieść kod funckji tutaj
+        // krzyżowanie PMX
         crossover(parent1, parent2, crossPoint1, crossPoint2);
+
+        // podmiana miast
+        for (int i = 0; i < 2; i++) {
+            mutate(100);
+        }
 
         // do bitów
         for (int i = 0; i < this.listOfCities.size(); i++) {
