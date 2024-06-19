@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 public class Repository {
     private static String projectPath = Paths.get("").toAbsolutePath().toString();
     private static final String folderPath = "data"; // Wybrany folder w projekcie
@@ -123,27 +122,17 @@ public class Repository {
      * @param ListOfBest  Lista {@code List<Integer>} najlepszych wyników
      * @param isGlobal    Czy podane wyniki są lokalne, czy nie (globalne)
      */
-    public static void SaveResults(int numOfCities, List<Integer> ListOfBest, boolean isGlobal, int Run) {
+    public static void SaveResults(int numOfCities, List<Integer> ListOfBest, boolean isGlobal) {
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
         String addition = isGlobal ? "BestGlobal" : "AvgCurrent";
-        String globalStr = isGlobal ? "true" : "false";
 
         String name = "Wyniki" + Main.wyk + numOfCities + addition + '_' + Main.POP_SIZE;
 
-        // Create new folder path with the Run variable and isGlobal variable
-        Path runFolderPath = Paths.get(projectPath, folderPath, "Run" + Run + "_Global" + globalStr);
-
-        // Ensure the folder is created if it does not exist
-        try {
-            Files.createDirectories(runFolderPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        String outputFile = runFolderPath.resolve(name + ".txt").toString();
+        String outputFile = Paths
+                .get(projectPath, folderPath, name + ".txt")
+                .toString();
 
         BufferedWriter writer = null;
         try {
