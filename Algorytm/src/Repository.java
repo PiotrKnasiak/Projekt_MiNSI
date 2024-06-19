@@ -18,6 +18,8 @@ public class Repository {
      * @return Lista miast
      */
     public static List<City> loadTSPFile(String fileName) {
+
+        System.out.println(projectPath);
         if (projectPath.endsWith("\\src"))
             projectPath = Paths.get("").toAbsolutePath().getParent().toString();
 
@@ -128,7 +130,7 @@ public class Repository {
 
         String addition = isGlobal ? "BestGlobal" : "AvgCurrent";
 
-        String name = "Wyniki" + Main.wyk + numOfCities + addition + '_' + Main.POP_SIZE;
+        String name = "Wyniki" + numOfCities + "_" + Main.wyk + addition + '_' + Main.POP_SIZE;
 
         String outputFile = Paths
                 .get(projectPath, folderPath, name + ".txt")

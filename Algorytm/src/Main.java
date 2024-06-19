@@ -14,9 +14,8 @@ public class Main {
     public static List<City> Cities = new ArrayList<City>();
     public static List<Integer> bestGlobal = new ArrayList<>(EVALS_MULT);
     public static List<Integer> avgCurrent = new ArrayList<>(EVALS_MULT);
-    public static int max101 = 0, max280 = 0;
     public static Random rand = new Random();
-    public static int wyk = 0;
+    public static int wyk = 1;
 
     public static Population algorytm(List<City> ListOfCities) {
         Population currPop = new Population(POP_SIZE, ListOfCities, PC, PM);
@@ -26,9 +25,10 @@ public class Main {
         int currEvals = 0;
         int debestaG = -1;
 
-        while (currEvals < POP_SIZE * EVALS_MULT) {
-            int currSum = 0;
+        while (currEvals < EVALS_MULT) {
             currEvals += POP_SIZE;
+
+            int currSum = 0;
 
             for (Individual i : currPop.individuals) {
                 int sumDist = i.sumDistance();
@@ -44,10 +44,6 @@ public class Main {
                     crossPoint2);
 
             currPop = childPop;
-
-            if ((currEvals / POP_SIZE) % 500 == 0) {
-                System.out.println("Progress: " + currEvals / POP_SIZE / 100 + "%");
-            }
         }
 
         currPop.sort();
@@ -63,9 +59,13 @@ public class Main {
         String fileName1 = "lin318.tsp";
         String fileName2 = "kroA100.tsp";
 
-        for (wyk = 0; wyk < 30; wyk++) {
+        Cities = Repository.loadTSPFile(fileName2);
 
-            for (int i = popList.length - 1; i >= 0; i--) {
+        for (; wyk <= 30; wyk++) {
+
+            System.out.println("Wykonanie " + wyk);
+
+            for (int i = 0; i < popList.length; i++) {
                 POP_SIZE = popList[i];
                 System.out.println("Population size: " + POP_SIZE);
                 // Plik 1
@@ -82,8 +82,6 @@ public class Main {
                  * avgCurrent = new ArrayList<>(EVALS_MULT);
                  */
                 // Plik 2
-
-                Cities = Repository.loadTSPFile(fileName1);
 
                 Population finalPop2 = algorytm(Cities);
 
